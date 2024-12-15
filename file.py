@@ -17,11 +17,12 @@ def expression_tail(chars, flag):
             read_char(chars)
             expression(chars, flag)
     else:
-        if chars[0] == '+':
-            raise ValueError("Нельзя ставить + в скобках")
-        while chars and chars[0] in "-":
+        while chars and chars[0] in "+-":
+            ind = chars.index(')')
+            if not '-' in chars[:ind]:
+                raise IndexError('в скобках может быть только -')
             read_char(chars)
-            expression(chars, flag)
+            expression(chars, 0)
 
 
 def expression(chars, flag):
@@ -53,7 +54,7 @@ def parse(input_string):
 if __name__ == "__main__":
     print(
         'Алгебраические формулы со скобками и знаками операций + и -. При этом сумма операндов никогда не берется в скобки, а разность может браться, а может нет\nПример: a+b-(c-(d-f))')
-    while True:
+    for i in range(10000):
         try:
             parse(input("Введите выражение: "))
         except:
